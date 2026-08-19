@@ -1,0 +1,56 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.backends.legacy:build"
+
+[project]
+name = "meet-assistant"
+version = "0.1.0"
+description = "Local AI meeting assistant — transcribes, summarizes, and creates tasks from calls"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+
+dependencies = [
+    # ── Agent / LLM ──────────────────────────────────────────────────────────
+    "smolagents[openai]>=1.14.0",
+    "litellm>=1.40.0",
+    "openai>=1.30.0",
+
+    # ── Transcription ─────────────────────────────────────────────────────────
+    "faster-whisper>=1.0.3",
+
+    # ── Audio ─────────────────────────────────────────────────────────────────
+    "sounddevice>=0.4.7",
+    "soundfile>=0.12.1",
+    "numpy>=1.26.4",
+
+    # ── Config & CLI ──────────────────────────────────────────────────────────
+    "pydantic>=2.0.0",
+    "pydantic-settings>=2.0.0",
+    "colorama>=0.4.6",
+    "rich>=13.7.0",
+
+    # ── Optional integrations (imported conditionally) ────────────────────────
+    "notion-client>=2.2.1",
+    "PyGithub>=2.3.0",
+    "requests>=2.31.0",
+]
+
+[project.scripts]
+meet = "meet_assistant.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["meet_assistant*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "e2e: end-to-end tests requiring real audio hardware (deselect with -m 'not e2e')",
+    "integration: tests requiring external services (LM Studio, Notion, GitHub)",
+]
+addopts = "-v --tb=short"
+
+[tool.flake8]
+max-line-length = 100
+exclude = [".venv", "dist", "build", "__pycache__"]

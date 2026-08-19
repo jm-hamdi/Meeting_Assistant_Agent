@@ -1,0 +1,24 @@
+# Claude context — local only
+CLAUDE.md
+TASKS.md
+
+# Environment
+.env
+
+# Outputs
+outputs/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+
+# Whisper model cache
+.cache/
+
+# macOS
+.DS_Store
